@@ -1,0 +1,83 @@
+﻿@model visitantes_app.Models.Evento
+@{
+    ViewData["Title"] = "Eventos";
+    Layout = "~/Views/Shared/_LayoutV.cshtml";
+    var _eventos = (List<Evento>)ViewBag.eventos;
+}
+
+<!-- ======= Hero Section ======= -->
+<section id="hero" class="hero d-flex align-items-center">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 d-flex flex-column justify-content-center">
+                <h1 data-aos="fade-up">Eventos</h1>
+                <h2 data-aos="fade-up" data-aos-delay="400">Agrega y controla tus eventos.</h2>
+                <div data-aos="fade-up" data-aos-delay="600">
+                    <div class="text-center text-lg-start">
+                        <a href="@Url.Action("Form","Eventos")" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
+                            <span>Agendar evento</span>
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 hero-img" data-aos="zoom-out" data-aos-delay="200">
+                <img src="assets/img/hero-img.png" class="img-fluid" alt="">
+            </div>
+        </div>
+    </div>
+
+</section><!-- End Hero -->
+
+<main id="main">
+
+    <!-- ======= Services Section ======= -->
+@if (_eventos.Count > 0)
+    {
+        <section id="services" class="services">
+
+            <div class="container" data-aos="fade-up">
+
+                <header class="section-header">
+                    <h2>Visitantes</h2>
+                    <p>Visitantes registrados</p>
+                </header>
+
+                <div class="row gy-4">
+
+                    <table class="table table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Descripci&oacute;n</th>
+                                <th scope="col">Fecha</th>
+                                <th> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in _eventos)
+                            {
+                                @if(item.Estado > 0){
+                                    <tr>
+                                    <td>@item.Nombre</td>
+                                    <td>@item.Descripcion</td>
+                                    <td>@item.Fecha</td>
+                                    <td>
+                                        <a class="btn btn-dark" href="@Url.Action("Data","Eventos",new {id=item.Id})"><i class="bi bi-eye"></i></a>
+                                        <a class="btn btn-danger" href="@Url.Action("Remove","Eventos",new {id=item.Id})"><i class="bi bi-trash"></i></a>
+                                    </td>
+                                </tr>
+                                }
+                            }
+                        </tbody>
+                </table>
+            </div>
+        </div>
+
+    </section>
+    }
+    <!-- End Services Section -->
+
+</main><!-- End #main -->
+

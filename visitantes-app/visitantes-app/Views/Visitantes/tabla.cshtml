@@ -1,0 +1,58 @@
+﻿@{
+    var visitantes = (List<Visitante>)ViewBag.visit;
+    var historial = (List<Historial>)ViewBag.historial;
+   
+}
+<!-- ======= Services Section ======= -->
+@if (visitantes.Count > 0)
+{
+    <section id="services" class="services">
+
+        <div class="container" data-aos="fade-up">
+
+            <header class="section-header">
+                <h2>Visitantes</h2>
+                <p>Visitantes registrados</p>
+            </header>
+
+            <div class="row gy-4">
+
+                <table class="table table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Cédula</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Apellido</th>
+                            <th scope="col">&Uacute;ltima visita</th>
+                            <th> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in visitantes)
+                        {
+                            
+                            var _historial = from h in historial where h.VisitanteId == item.Id orderby h.FechaSalida descending select h.FechaSalida;
+                            
+                            <tr>
+                                <td>@item.Cedula</td>
+                                <td>@item.Nombre</td>
+                                <td>@item.Apellido</td>
+                                <td>@(_historial != null ? _historial.FirstOrDefault() : "Aún no ha salido.")</td>
+                                <td>
+                                    <a class="btn btn-success" href="@Url.Action("Form","Visitantes",new {id=item.Id})"><i class="bi bi-pencil-square"></i></a>
+                                    <a class="btn btn-warning" href="@Url.Action("Salida","Visitantes",new {id=item.Id})"><i class="bi bi-calendar-check"></i></a>
+                                    <!--<a class="btn btn-success" asp-controller="Empleado" asp-action="EditProfile"
+                                    asp-route-id=><i class="fa-solid fa-pen-to-square"></i></a>
+                                    <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#danger" onclick="pass()"><i class="fa-solid fa-trash-can"></i></a>-->
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- End Services Section -->
+}

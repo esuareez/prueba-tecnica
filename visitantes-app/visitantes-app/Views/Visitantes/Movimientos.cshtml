@@ -1,0 +1,70 @@
+﻿@model visitantes_app.Models.Historico
+@{
+    ViewData["Title"] = "Movimientos y Cambios";
+    Layout = "~/Views/Shared/_LayoutV.cshtml";
+    var historicos = (List<Historico>)ViewBag.historicos;
+    var historiales = (List<Historial>)ViewBag.historial;
+    var visitantes = (List<Visitante>)ViewBag.visitante;
+    var eventos = (List<Evento>)ViewBag.evento;
+}
+
+<div style="margin-top: 200px">
+    @if (historicos.Count > 0)
+    {
+        <section id="services" class="services">
+
+            <div class="container" data-aos="fade-up">
+
+                <header class="section-header">
+                    <h2>Historial</h2>
+                    <p>Entrada y Salidas registradas</p>
+                </header>
+
+                <div class="row gy-4">
+
+                    <table class="table table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col"> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in historicos)
+                            {
+                                var _visitante = from v in visitantes where v.Id == item.VisitanteId select v.Nombre + " " + v.Apellido;
+                                var _historial = from h in historiales where h.Id == item.HistorialId select h.VisitanteId;
+                                var _visitanteHistorial = from v in visitantes where v.Id == _historial.FirstOrDefault() select v.Nombre + " " + v.Apellido;
+                                var _evento = from e in eventos where e.Id == item.EventoId select e.Nombre;
+                                <tr>
+                                    @switch(item.Descripcion){
+                                        case "Agregar":
+                                            <td>@_visitante.FirstOrDefault() ha sido agregado a las @item.FechaModif.ToString("HH:mm").</td>
+                                            break;
+                                        case "Salida":
+                                            <td>@_visitanteHistorial.FirstOrDefault() ha salido a las @item.FechaModif.ToString("HH:mm").</td>
+                                            break;
+                                        case "Editar":
+                                            <td>Los datos de @_visitante.FirstOrDefault() han sido modificados a las @item.FechaModif.ToString("HH:mm").</td>
+                                            break;
+                                        case "Agendar":
+                                            <td>El evento "@_evento.FirstOrDefault()" ha sido agendado a las @item.FechaModif.ToString("HH:mm").</td>
+                                            break;
+                                        case "Eliminar":
+                                            <td>El evento "@_evento.FirstOrDefault()" ha sido eliminado a las @item.FechaModif.ToString("HH:mm").</td>
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+    }
+</div>
+
+<!-- End Services Section -->
+

@@ -1,0 +1,85 @@
+﻿@model visitantes_app.Models.Evento
+@{
+    Layout = "_LayoutV";
+    int id = 0;
+    string nombre = "";
+    string descripcion = "";
+    var fecha = "";
+    string accion = "Create";
+    string boton = "Crear";
+    string title = "Crear Evento";
+    if (Model != null)
+    {
+        id = Model.Id;
+        nombre = Model.Nombre;
+        descripcion = Model.Descripcion;
+        fecha = Model.Fecha.ToString();
+        accion = "Edit";
+        boton = "Actualizar";
+        title = "Editar Evento";
+    }
+
+    var _visitantes = (List<Visitante>)ViewBag.visitantes;
+}
+
+<link rel="stylesheet" href="~/css/filter_multi_select.css" />
+<script src="~/js/filter-multi-select-bundle.min.js"></script>
+
+<title>@title</title>
+
+<main id="main">
+    <div style="margin-top: 200px">
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+
+        <div class="container" data-aos="fade-up">
+
+            <header class="section-header">
+                <h2>@title</h2>
+                <p>Datos</p>
+            </header>
+
+            <div class="row gy-4">
+
+                <form asp-action="@accion" method="post">
+                    <div class="row gy-4">
+
+                        <input hidden name="Id" value="@id" />
+                        <div class="col-md-6">
+                            <input type="text" name="nombre" class="form-control" placeholder="Nombre" value="@nombre" required>
+                        </div>
+
+                        <div class="col-md-6 ">
+                            <input type="text" class="form-control" name="descripcion" placeholder="Descripcion" value="@descripcion" required>
+                        </div>
+
+                        <div class="col-md-6 ">
+                            <input type="datetime-local" class="form-control" name="fecha" placeholder="Fecha" value="@fecha" required>
+                        </div>
+
+                            <select multiple name="visitantes" id="visitantes" class="form-control list-box tri-state" required>
+                            @foreach(var item in _visitantes){
+                                <option value="@item.Id">@item.Nombre @item.Apellido</option>
+                            }
+                        </select>
+
+                        <div class="col-md-12 text-center">
+                            <button type="submit">@boton</button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+    </section><!-- End Contact Section -->
+    </div>
+
+</main><!-- End #main -->
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    window.onload($('#visitantes').filterMultiSelect())
+</script>

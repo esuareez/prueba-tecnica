@@ -1,0 +1,52 @@
+﻿@model visitantes_app.Models.Historial
+@{
+    ViewData["Title"] = "Historial";
+    Layout = "~/Views/Shared/_LayoutV.cshtml";
+    var historiales = (List<Historial>)ViewBag.historial;
+    var visitantes = (List<Visitante>)ViewBag.visitante;
+}
+<div style="margin-top: 200px">
+@if (historiales.Count > 0)
+{
+    <section id="services" class="services">
+
+        <div class="container" data-aos="fade-up">
+
+            <header class="section-header">
+                <h2>Historial</h2>
+                <p>Entrada y Salidas registradas</p>
+            </header>
+
+            <div class="row gy-4">
+
+                <table class="table table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col"> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in historiales)
+                        {
+                            var _visitante = from v in visitantes where v.Id == item.VisitanteId orderby v.Nombre descending select v.Nombre + " " + v.Apellido;
+                            <tr>
+                                @if(item.FechaSalida != null){
+                                    <td>@_visitante.FirstOrDefault() ha ingresado el dia @item.FechaInicio.ToString("dd/mm/yyyy") a las @item.FechaInicio.ToString("HH:mm") y ha salido el @item.FechaSalida.Value.ToString("dd/mm/yyyy") a las @item.FechaSalida.Value.ToString("HH:mm") </td>
+                                }else{
+                                    <td>@_visitante.FirstOrDefault() ha ingresado el dia @item.FechaInicio.ToString("dd/mm/yyyy") a las @item.FechaInicio.ToString("HH:mm") y no ha registrado una fecha y hora de salida. </td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </section>
+    }
+</div>
+
+    <!-- End Services Section -->
+
+
+

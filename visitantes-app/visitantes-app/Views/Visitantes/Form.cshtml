@@ -1,0 +1,68 @@
+﻿@model visitantes_app.Models.Visitante
+@{
+    Layout = "_LayoutV";
+    int id = 0;
+    string nombre = "";
+    string apellido = "";
+    string cedula = "";
+    string accion = "Create";
+    string boton = "Registrar";
+    string title = "Registar Visitante";
+    if (Model != null)
+    {
+        id = Model.Id;
+        nombre = Model.Nombre;
+        apellido = Model.Apellido;
+        cedula = Model.Cedula;
+        accion = "Edit";
+        boton = "Actualizar";
+        title = "Editar Visitante";
+    }
+}
+
+   <title>@title</title>
+  <main id="main">
+    <br>
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+
+        <div class="container" data-aos="fade-up">
+
+            <header class="section-header">
+                <h2>@title</h2>
+                <p>Datos</p>
+            </header>
+
+            <div class="row gy-4">
+
+                <form asp-action="@accion" method="post">
+                    <div class="row gy-4">
+
+                        <input hidden name="Id" value="@id" />
+                        <div class="col-md-6">
+                            <input type="text" name="nombre" class="form-control" placeholder="Nombre" value="@nombre" required>
+                        </div>
+
+                        <div class="col-md-6 ">
+                            <input type="text" class="form-control" name="apellido" placeholder="Apellido" value="@apellido" required>
+                        </div>
+
+                        <div class="col-md-6 ">
+                            <input type="text" class="form-control" name="cedula" placeholder="C&eacute;dula" value="@cedula" required>
+                        </div>
+
+                        <div class="col-md-12 text-center">
+                            <button type="submit">@boton</button>
+                        </div>
+
+                    </div>
+                </form>
+
+
+            </div>
+
+        </div>
+
+    </section><!-- End Contact Section -->
+
+  </main><!-- End #main -->

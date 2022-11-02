@@ -1,0 +1,48 @@
+﻿@model visitantes_app.Models.Evento
+@{
+    ViewData["Title"] = "Visitantes del evento";
+    Layout = "~/Views/Shared/_LayoutV.cshtml";
+    var visitantes = (List<Visitante>)ViewBag.visitantes;
+    var visitanteEventos = (List<VisitanteEvento>)ViewBag.visitantesEvento;
+}
+
+<div style="margin-top: 200px">
+    @if (Model.Id > 0)
+    {
+        <section id="services" class="services">
+
+            <div class="container" data-aos="fade-up">
+
+                <header class="section-header">
+                    <h2>Evento</h2>
+                    <p>Posibles visitantes</p>
+                </header>
+
+                <div class="row gy-4">
+
+                    <table class="table table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col"> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in visitanteEventos)
+                            {
+                                @if(item.EventoId == Model.Id){
+                                    var _visitante = from v in visitantes where v.Id == item.VisitanteId select v.Nombre + " " + v.Apellido;
+                                    <tr>
+                                        <td>@_visitante.FirstOrDefault()</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+    }
+</div>
+
+<!-- End Services Section -->
